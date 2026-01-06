@@ -8,7 +8,7 @@
 **Bridge-MedDevKG** is a coarse-to-fine framework designed to bridge the semantic gap between regulatory documents (FDA PMA) and intellectual property (USPTO patents). It constructs a high-fidelity Knowledge Graph linking medical devices to their underlying patents, addressing challenges like vocabulary mismatch ("semantic gap") and many-to-many entity alignment.
 
 This repository contains the code and benchmark data for the paper:  
-> **Bridging Regulatory and Intellectual Property Domains: A Hybrid Knowledge Graph Construction Framework for Medical Device-Patent Linking** > *Submitted to ACL 2026 (Clinical and Biomedical Applications Track)*
+> **Bridging Regulatory and Intellectual Property Domains: A Hybrid Knowledge Graph Construction Framework for Medical Device-Patent Linking** > 
 
 ---
 
