@@ -14,10 +14,10 @@ This repository contains the code and benchmark data for the paper:
 
 ## 🚀 Key Features
 
-* [cite_start]**MedDevOnto:** A domain-adaptive ontology that injects expert-guided weights into UMLS to prioritize device-critical terms (e.g., "stent" vs. "device")[cite: 160].
-* [cite_start]**Multi-Signal Candidate Generation:** A retrieval module fusing company affiliation, vector similarity (SBERT), and ontology-weighted entity overlap to achieve high recall[cite: 161].
-* [cite_start]**Learned Noise Reduction:** A heterogeneous reranking stage combining Cross-Encoders (BGE-M3) and XGBoost classification to filter noise with high precision[cite: 162, 589].
-* [cite_start]**New Benchmark:** Includes a gold standard of **584 expert-verified device-patent pairs** for cardiovascular devices, curated from corporate disclosures and litigation filings[cite: 164].
+* **MedDevOnto:** A domain-adaptive ontology that injects expert-guided weights into UMLS to prioritize device-critical terms (e.g., "stent" vs. "device").
+* **Multi-Signal Candidate Generation:** A retrieval module fusing company affiliation, vector similarity (SBERT), and ontology-weighted entity overlap to achieve high recall.
+* **Learned Noise Reduction:** A heterogeneous reranking stage combining Cross-Encoders (BGE-M3) and XGBoost classification to filter noise with high precision.
+* **New Benchmark:** Includes a gold standard of **584 expert-verified device-patent pairs** for cardiovascular devices, curated from corporate disclosures and litigation filings.
 
 ---
 
@@ -25,9 +25,9 @@ This repository contains the code and benchmark data for the paper:
 
 The pipeline consists of three main stages:
 
-1.  [cite_start]**Stage 1: Domain-Adaptive Ontology (MedDevOnto)** Extracts entities using schema-guided prompting (DeepSeek-V3) and maps them to UMLS with domain-specific weighting[cite: 435].
+1.  **Stage 1: Domain-Adaptive Ontology (MedDevOnto)** Extracts entities using schema-guided prompting (DeepSeek-V3) and maps them to UMLS with domain-specific weighting.
 2.  **Stage 2: Multi-Signal Fusion** Generates a broad candidate pool by combining:
     * $S_{company}$: Corporate structure matching (handling M&A).
     * $S_{vector}$: Dense retrieval using `all-mpnet-base-v2`.
-    * [cite_start]$S_{entity}$: Ontology-weighted overlap[cite: 580].
-3.  [cite_start]**Stage 3: Learned Reranking** Refines candidates using a Cross-Encoder (`BGE-reranker-v2-m3`) and a gradient-boosted classifier (XGBoost) trained on hard negatives[cite: 162].
+    * $S_{entity}$: Ontology-weighted overlap.
+3.  **Stage 3: Learned Reranking** Refines candidates using a Cross-Encoder (`BGE-reranker-v2-m3`) and a gradient-boosted classifier (XGBoost) trained on hard negatives.
