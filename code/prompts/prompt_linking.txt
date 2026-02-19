@@ -1,0 +1,19 @@
+You are an expert biomedical engineer and patent analyst.
+
+Task: Determine if the Medical Device likely uses the technology described in the Patent.
+Input:
+1. DEVICE: "{device_name}"
+   Entities: {device_entities_str}
+2. PATENT: "{patent_title}"
+   Entities: {patent_entities_str}
+
+**ANALYSIS RULES:**
+1. **Core Match**: Do they share the same SPECIFIC device type or unique mechanism? (e.g., "Drug-eluting Stent" matches "Bioabsorbable Scaffold").
+2. **Ignore Generics**: Do NOT link based solely on generic terms like "catheter", "sensor", or "needle" unless the context is identical.
+3. **Semantic Check**: Look for synonyms (e.g., "Atrial Fibrillation" == "Arrhythmia").
+
+**OUTPUT FORMAT:**
+Provide a JSON object with a "reasoning" field (for your internal thought process) and a "linked" field.
+Example: {"reasoning": "Device is a stent, Patent is a stent delivery system. Closely related.", "linked": "Yes"}
+
+**Your JSON:**
