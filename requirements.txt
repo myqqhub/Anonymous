@@ -1,0 +1,28 @@
+# Core ML & NLP
+torch>=2.0.0
+sentence-transformers>=2.2.0
+transformers>=4.30.0
+
+# Gradient Boosting
+xgboost>=1.7.0
+
+# Data Processing
+pandas>=1.5.0
+numpy>=1.23.0
+pyarrow>=11.0.0
+
+# ML Utilities
+scikit-learn>=1.2.0
+joblib>=1.2.0
+
+# Progress & Utilities
+tqdm>=4.64.0
+scipy>=1.9.0
+
+# Retrieval Baselines (Step 7)
+rank-bm25>=0.2.2
+
+# Optional: Neo4j integration (for local_export_all.py and local_import_results.py)
+# NOTE: These scripts require a local Neo4j instance and can be skipped by reviewers
+# Uncomment if you need to run the full KG export/import pipeline:
+# neo4j>=5.0.0

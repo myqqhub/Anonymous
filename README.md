@@ -7,12 +7,14 @@
 
 **Bridge-MedDevKG** is a coarse-to-fine framework for cross-domain entity linking between FDA-approved medical devices and USPTO patents. It constructs a high-fidelity Knowledge Graph by fusing domain-adaptive ontology, multi-signal candidate generation, and learned reranking to bridge the severe semantic gap between regulatory and technical documents.
 
-This repository contains the **code**, **benchmark data**, and **pre-computed results** for the paper:
+This repository contains the **code**, **released datasets**, and **pre-computed results** for the paper:
 > **From Regulatory Approvals to Patents: Cross-Domain Linking for Cardiovascular Device Traceability**
+
+**Datasets disclosed in `data/`:** (1) **Gold standard** — 585 expert-verified device–patent pairs (`gold_standard.parquet`). (2) **Evaluation / baseline data** — 434 FDA PMA documents (`baseline_fda_docs.parquet`), 50K patent subset (`baseline_patents.parquet`), gold links for retrieval baselines (`baseline_gold_links.parquet`), 2,672 samples for cross-encoder comparison (`evaluation_dataset.csv`), gold relation IDs (`gold_rel_ids.csv`), and a 500-row sample of Stage 2 candidates (`sample_links_to_process.parquet`). The KG in this work is the set of device–patent links (e.g. V4_WEIGHTED_LINK); the data in `data/` are exported from that graph (via `code/local_export_all.py`, which reads from an existing Neo4j instance). Two large exports — `training_data_5a.parquet` (~50MB) and `links_to_process.parquet` (~4.4GB) — are omitted for size; with them, Steps 5a–5c in `hpc_run_all.py` train the reranker and produce the refined link set (the validated KG). With the disclosed datasets, Steps 6, 7, 8, 13, 14 reproduce all paper tables.
 
 ---
 
-## Benchmark at a Glance
+## Data at a Glance
 
 | Component | Count |
 |-----------|-------|
@@ -21,9 +23,7 @@ This repository contains the **code**, **benchmark data**, and **pre-computed re
 | Companies (normalized) | 29,758 |
 | **Gold-Standard Verified Pairs** | **585** |
 | Devices with Disclosures | 88 (20.3%) |
-| Patents per Device (median / max) | 5 / 83 |
 
-**Main Results:** 91.6% Recall@Gold with 97.7% cumulative noise reduction, substantially outperforming LLM baselines (best LLM: GPT-4-turbo 60.1%).
 
 ---
 
@@ -32,7 +32,7 @@ This repository contains the **code**, **benchmark data**, and **pre-computed re
 * **MedDevOnto:** Domain-adaptive ontology injecting expert-guided weights into UMLS. Anchor terms (stent, catheter, valve, etc.) receive weight 1.0; generic terms receive 0.1–0.3. Improves recall by **+11.3%** over uniform UMLS weighting.
 * **Multi-Signal Candidate Generation:** Fuses company affiliation ($S_{company}$), SBERT vector similarity ($S_{vector}$), and ontology-weighted entity overlap ($S_{entity}$), achieving **98.97% gold recall** at candidate generation (579/585 pairs).
 * **Learned Noise Reduction:** BGE-M3 cross-encoder + XGBoost classification (9-dimensional features, 5-fold CV F1=0.931), achieving **50.9% incremental noise reduction**.
-* **New Benchmark:** 585 expert-verified device-patent pairs from litigation filings, SEC filings, and virtual patent marking — the first benchmark for this task.
+* **Gold standard:** 585 expert-verified device–patent pairs from litigation filings, SEC filings, and virtual patent marking — the first such evaluation set for this task.
 
 ---
 
@@ -65,7 +65,7 @@ Stage 3: Learned Noise Reduction (Reranking)
 │   ├── prompts/
 │   │   ├── prompt_fda_flat.txt          # FDA entity extraction prompt (DeepSeek-V3)
 │   │   ├── prompt_patent_flat.txt       # Patent entity extraction prompt (DeepSeek-V3)
-│   │   └── prompt_linking.txt           # LLM direct classification prompt (Table 2 baseline)
+│   │   └── prompt_linking.txt           # LLM direct classification prompt (for LLM baseline evaluation)
 │   ├── hpc_run_all.py                   # Main pipeline: Steps 5a–14
 │   ├── local_export_all.py              # Export Neo4j KG → parquet/csv for HPC
 │   │                                    # NOTE: Requires local Neo4j instance
@@ -125,7 +125,7 @@ python code/hpc_run_all.py 6
 python code/hpc_run_all.py 5a 5b 5c
 ```
 
-> **Note:** `training_data_5a.parquet` (~50MB) and `links_to_process.parquet` (~4.4GB) are generated from the full Neo4j KG and are omitted for size. All paper tables (Tables 2–6) can be reproduced using the provided `data/` files by running Steps 7, 8, 13, 14.
+> **Note:** `training_data_5a.parquet` (~50MB) and `links_to_process.parquet` (~4.4GB) are generated from the full Neo4j KG and are omitted for size. All paper tables can be reproduced using the provided `data/` files by running Steps 6, 7, 8, 13, 14.
 
 ---
 
@@ -152,7 +152,7 @@ python code/hpc_run_all.py 5a 5b 5c
 
 ---
 
-## 📊 Benchmark Schema: gold_standard.parquet
+## 📊 Schema: gold_standard.parquet
 
 | Field | Type | Description |
 |-------|------|-------------|
