@@ -69,8 +69,9 @@ Stage 3: Learned Noise Reduction (Reranking)
 │   ├── hpc_run_all.py                   # Main pipeline: Steps 5a–14
 │   ├── local_export_all.py              # Export Neo4j KG → parquet/csv for HPC
 │   │                                    # NOTE: Requires local Neo4j instance
-│   └── local_import_results.py         # Import HPC results → Neo4j
-│                                        # NOTE: Requires local Neo4j instance
+│   ├── local_import_results.py          # Import HPC results → Neo4j
+│   │                                    # NOTE: Requires local Neo4j instance
+│   └──add_fewshot_examp.py             # Ran few-shot prompting
 ├── data/
 │   ├── gold_standard.parquet           # 585 expert-verified device-patent pairs
 │   ├── gold_rel_ids.csv                # Gold relation IDs for Stage 3 monitoring
