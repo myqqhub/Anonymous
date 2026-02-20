@@ -10,7 +10,7 @@
 This repository contains the **code**, **released datasets**, and **pre-computed results** for the paper:
 > **From Regulatory Approvals to Patents: Cross-Domain Linking for Cardiovascular Device Traceability**
 
-**Datasets disclosed in `data/`:** (1) **Gold standard** — 585 expert-verified device–patent pairs (`gold_standard.parquet`). (2) **Evaluation / baseline data** — 434 FDA PMA documents (`baseline_fda_docs.parquet`), 50K patent subset (`baseline_patents.parquet`), gold links for retrieval baselines (`baseline_gold_links.parquet`), 2,672 samples for cross-encoder comparison (`evaluation_dataset.csv`), gold relation IDs (`gold_rel_ids.csv`), and a 500-row sample of Stage 2 candidates (`sample_links_to_process.parquet`). The KG in this work is the set of device–patent links (e.g. V4_WEIGHTED_LINK); the data in `data/` are exported from that graph (via `code/local_export_all.py`, which reads from an existing Neo4j instance). Two large exports — `training_data_5a.parquet` (~50MB) and `links_to_process.parquet` (~4.4GB) — are omitted for size; with them, Steps 5a–5c in `hpc_run_all.py` train the reranker and produce the refined link set (the validated KG). With the disclosed datasets, Steps 6, 7, 8, 13, 14 reproduce all paper tables.
+**Datasets disclosed in `data/`:** (1) **Gold standard** — 585 expert-verified device–patent pairs (`gold_standard.parquet`). (2) **Evaluation / baseline data** — 434 FDA PMA documents (`baseline_fda_docs.parquet`), 50K patent subset (`baseline_patents.parquet`), gold links for retrieval baselines (`baseline_gold_links.parquet`), 2,672 samples for cross-encoder comparison (`evaluation_dataset.csv`), gold relation IDs (`gold_rel_ids.csv`), and a 500-row sample of Stage 2 candidates (`sample_links_to_process.parquet`). (3) **Reranker training data** — `training_data_5a.parquet`, the labeled dataset used to train the XGBoost reranker in Step 5a. The KG in this work is the set of device–patent links (e.g. V4_WEIGHTED_LINK); the data in `data/` are exported from that graph (via `code/local_export_all.py`, which reads from an existing Neo4j instance). One large file — `links_to_process.parquet` (~4.4GB) — is generated from the full Neo4j KG and omitted due to size constraints. A representative sample (`sample_links_to_process.parquet`, 500 rows) is provided in `data/` for reference; with the full file, Steps 5a–5c in `hpc_run_all.py` train the reranker and produce the refined link set (the validated KG). With the disclosed datasets, Steps 6, 7, 8, 13, 14 reproduce all paper tables.
 
 ---
 
@@ -125,7 +125,10 @@ python code/hpc_run_all.py 6
 python code/hpc_run_all.py 5a 5b 5c
 ```
 
-> **Note:** `training_data_5a.parquet` (~50MB) and `links_to_process.parquet` (~4.4GB) are generated from the full Neo4j KG and are omitted for size. All paper tables can be reproduced using the provided `data/` files by running Steps 6, 7, 8, 13, 14.
+>  **Note:** `links_to_process.parquet` (~4.4GB) is generated from the full Neo4j KG and 
+> omitted due to size constraints. A representative sample (`sample_links_to_process.parquet`, 
+> 500 rows) is provided in `data/` for reference. All paper tables can be fully reproduced 
+> using the provided `data/` files by running Steps 6, 7, 8, 13, 14.
 
 ---
 
