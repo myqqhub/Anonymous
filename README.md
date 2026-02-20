@@ -78,6 +78,7 @@ Stage 3: Learned Noise Reduction (Reranking)
 │   ├── baseline_fda_docs.parquet       # 434 FDA PMA documents (Step 7)
 │   ├── baseline_patents.parquet        # 50,000 patent subset (Step 7)
 │   ├── baseline_gold_links.parquet     # Gold links for baseline R@K evaluation
+│   ├── training_data_5a.parquet        # Labeled dataset for XGBoost reranker 
 │   └── sample_links_to_process.parquet # 500-row sample of Stage 2 candidates
 ├── results/
 │   ├── baseline_results.csv            # Table 2 Group A: retrieval baseline results
